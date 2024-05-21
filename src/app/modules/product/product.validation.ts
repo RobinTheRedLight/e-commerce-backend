@@ -13,7 +13,7 @@ const inventorySchema = z.object({
   inStock: z.boolean(),
 });
 
-const productSchema = z.object({
+const productValidationSchema = z.object({
   name: z.string().min(1, 'Name is required').trim(),
   description: z.string().min(1, 'Description is required').trim(),
   price: z
@@ -25,7 +25,7 @@ const productSchema = z.object({
     .min(1, 'Tags are required'),
   variants: z.array(variantsSchema).min(1, 'Variants are required'),
   inventory: inventorySchema,
-  isDeleted: z.boolean().optional(),
+  isDeleted: z.boolean().optional().default(false),
 });
 
-export default productSchema;
+export default productValidationSchema;
