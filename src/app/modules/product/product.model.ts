@@ -80,8 +80,8 @@ productSchema.pre('aggregate', function (next) {
   next();
 });
 
-productSchema.statics.isProductExists = async function (id: string) {
-  const existingProduct = await Product.findOne({ id });
+productSchema.statics.isProductExists = async function (name: string) {
+  const existingProduct = await Product.findOne({ name });
   return existingProduct;
 };
 

@@ -21,5 +21,5 @@ export type TProduct = {
   isDeleted: boolean;
 };
 export interface ProductModel extends Model<TProduct> {
-  isProductExists(id: string): Promise<TProduct | null>;
+  isProductExists(name: string): Promise<TProduct | null>;
 }
