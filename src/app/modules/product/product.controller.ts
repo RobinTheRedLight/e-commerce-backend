@@ -37,23 +37,32 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getProducts = async (req: Request, res: Response) => {
+const getProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    let result;
-    let message;
-
-    if (productId) {
-      result = await ProductServices.getProductsFromDB(productId);
-      message = 'Product is retrieved successfully';
-    } else {
-      result = await ProductServices.getProductsFromDB();
-      message = 'Products are retrieved successfully';
-    }
-
+    const result = await ProductServices.getProductFromDB(productId);
+    const message = 'Product is retrieved successfully';
     res.status(200).json({
       success: true,
       message: message,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err,
+    });
+  }
+};
+
+const getProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getProductsFromDB();
+
+    res.status(200).json({
+      success: true,
+      message: 'Products are retrieved successfully',
       data: result,
     });
   } catch (err: any) {
@@ -87,6 +96,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 export const ProductControllers = {
   createProduct,
+  getProduct,
   getProducts,
   updateProduct,
   deleteProduct,

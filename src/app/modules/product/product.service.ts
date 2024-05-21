@@ -6,16 +6,14 @@ const createProductIntoDB = async (productData: TProduct) => {
   return result;
 };
 
-const getProductsFromDB = async (id?: string) => {
-  console.log(id);
-  if (id) {
-    const result = await Product.findById({ _id: id });
-    console.log(result);
-    return result;
-  } else {
-    const result = await Product.find();
-    return result;
-  }
+const getProductsFromDB = async () => {
+  const result = await Product.find();
+  return result;
+};
+
+const getProductFromDB = async (id: string) => {
+  const result = await Product.findById({ _id: id });
+  return result;
 };
 
 const updateProductInDB = async (id: string, updateData: Partial<TProduct>) => {
@@ -31,6 +29,7 @@ const deleteProductFromDB = async (id: string) => {
 export const ProductServices = {
   createProductIntoDB,
   getProductsFromDB,
+  getProductFromDB,
   deleteProductFromDB,
   updateProductInDB,
 };
