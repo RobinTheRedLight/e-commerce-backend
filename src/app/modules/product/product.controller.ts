@@ -58,7 +58,9 @@ const getProduct = async (req: Request, res: Response) => {
 
 const getProducts = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.getProductsFromDB();
+    const searchTerm = req.query.searchTerm;
+    console.log(searchTerm);
+    const result = await ProductServices.getProductsFromDB(searchTerm);
 
     res.status(200).json({
       success: true,
