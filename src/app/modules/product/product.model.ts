@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose';
-import {
-  ProductModel,
-  TInventory,
-  TProduct,
-  TVariants,
-} from './product.interface';
+import { TInventory, TProduct, TVariants } from './product.interface';
 
 const variantsSchema = new Schema<TVariants>({
   type: {
@@ -28,7 +23,7 @@ const inventorySchema = new Schema<TInventory>({
   },
 });
 
-const productSchema = new Schema<TProduct, ProductModel>({
+const productSchema = new Schema<TProduct>({
   name: {
     type: String,
     trim: true,
@@ -75,14 +70,4 @@ productSchema.pre('findOne', function (next) {
   next();
 });
 
-productSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-  next();
-});
-
-productSchema.statics.isProductExists = async function (name: string) {
-  const existingProduct = await Product.findOne({ name });
-  return existingProduct;
-};
-
-export const Product = model<TProduct, ProductModel>('Product', productSchema);
+export const Product = model<TProduct>('Product', productSchema);

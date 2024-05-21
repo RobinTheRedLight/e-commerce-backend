@@ -4,7 +4,7 @@ import { ProductServices } from './product.service';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const productData = req.body;
     const zodParsedData = productValidationSchema.parse(productData);
 
     const result = await ProductServices.createProductIntoDB(zodParsedData);
@@ -23,14 +23,28 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const updateData = req.body;
+    const result = await ProductServices.updateProductInDB(
+      productId,
+      updateData,
+    );
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getProducts = async (req: Request, res: Response) => {
   try {
-    const { productName } = req.params;
+    const { productId } = req.params;
     let result;
     let message;
 
-    if (productName) {
-      result = await ProductServices.getProductsFromDB(productName);
+    if (productId) {
+      result = await ProductServices.getProductsFromDB(productId);
       message = 'Product is retrieved successfully';
     } else {
       result = await ProductServices.getProductsFromDB();
@@ -53,9 +67,9 @@ const getProducts = async (req: Request, res: Response) => {
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const { productName } = req.params;
+    const { productId } = req.params;
 
-    const result = await ProductServices.deleteProductFromDB(productName);
+    const result = await ProductServices.deleteProductFromDB(productId);
 
     res.status(200).json({
       success: true,
@@ -74,5 +88,6 @@ const deleteProduct = async (req: Request, res: Response) => {
 export const ProductControllers = {
   createProduct,
   getProducts,
+  updateProduct,
   deleteProduct,
 };

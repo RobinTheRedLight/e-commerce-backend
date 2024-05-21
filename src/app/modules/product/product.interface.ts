@@ -1,5 +1,3 @@
-import { Model } from 'mongoose';
-
 export type TVariants = {
   type: string;
   value: string;
@@ -20,6 +18,3 @@ export type TProduct = {
   inventory: TInventory;
   isDeleted: boolean;
 };
-export interface ProductModel extends Model<TProduct> {
-  isProductExists(name: string): Promise<TProduct | null>;
-}

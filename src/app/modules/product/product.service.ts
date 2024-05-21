@@ -2,16 +2,15 @@ import { TProduct } from './product.interface';
 import { Product } from './product.model';
 
 const createProductIntoDB = async (productData: TProduct) => {
-  if (await Product.isProductExists(productData.name)) {
-    throw new Error('Product already exists!');
-  }
   const result = await Product.create(productData);
   return result;
 };
 
-const getProductsFromDB = async (name?: string) => {
-  if (name) {
-    const result = await Product.aggregate([{ $match: { name } }]);
+const getProductsFromDB = async (id?: string) => {
+  console.log(id);
+  if (id) {
+    const result = await Product.findById({ _id: id });
+    console.log(result);
     return result;
   } else {
     const result = await Product.find();
@@ -19,8 +18,13 @@ const getProductsFromDB = async (name?: string) => {
   }
 };
 
-const deleteProductFromDB = async (name: string) => {
-  const result = await Product.updateOne({ name }, { isDeleted: true });
+const updateProductInDB = async (id: string, updateData: Partial<TProduct>) => {
+  const result = await Product.findByIdAndUpdate(id, updateData, { new: true });
+  return result;
+};
+
+const deleteProductFromDB = async (id: string) => {
+  const result = await Product.findByIdAndDelete({ _id: id });
   return result;
 };
 
@@ -28,4 +32,5 @@ export const ProductServices = {
   createProductIntoDB,
   getProductsFromDB,
   deleteProductFromDB,
+  updateProductInDB,
 };
