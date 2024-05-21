@@ -25,7 +25,6 @@ const productValidationSchema = z.object({
     .min(1, 'Tags are required'),
   variants: z.array(variantsSchema).min(1, 'Variants are required'),
   inventory: inventorySchema,
-  isDeleted: z.boolean().optional().default(false),
 });
 
 export default productValidationSchema;
