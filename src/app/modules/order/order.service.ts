@@ -21,11 +21,15 @@ const createOrderIntoDB = async (orderData: TOrder) => {
           'inventory.inStock': false,
         });
       }
-      return result;
+      return { result, message: 'Order created successfully', success: 'true' };
     }
-    return 'Insufficient quantity available in inventory';
+    return {
+      result: null,
+      message: 'Insufficient quantity available in inventory',
+      success: 'false',
+    };
   }
-  return 'Order not found';
+  return { result: null, message: 'Order not found', success: 'false' };
 };
 
 const getProductsFromDB = async (email: any) => {
