@@ -43,10 +43,21 @@ const createOrderIntoDB = async (orderData: TOrder) => {
 const getProductsFromDB = async (email: any) => {
   if (email) {
     const result = await Order.find({ email: email });
-    return result;
+    if (result.length !== 0) {
+      return {
+        success: 'true',
+        messageData: 'Orders fetched successfully for user email!',
+        resultData: result,
+      };
+    }
+    return { success: 'false', messageData: 'Order not found', resultData: '' };
   }
   const result = await Order.find();
-  return result;
+  return {
+    success: 'true',
+    messageData: 'Orders fetched successfully!',
+    resultData: result,
+  };
 };
 
 export const OrderServices = {
