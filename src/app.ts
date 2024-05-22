@@ -10,17 +10,17 @@ app.use(cors());
 
 app.use('/api/products', ProductRoutes);
 app.use('/api/orders', OrderRoutes);
+
+const serverMessage = (req: Request, res: Response) => {
+  res.send('Server is connected');
+};
+app.get('/', serverMessage);
+
 app.all('*', (req: Request, res: Response) => {
   res.status(400).json({
     success: false,
     message: 'Route is not found',
   });
 });
-
-const serverMessage = (req: Request, res: Response) => {
-  res.send('Server is connected');
-};
-
-app.get('/', serverMessage);
 
 export default app;
